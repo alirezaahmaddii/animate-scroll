@@ -85,7 +85,7 @@
       <section>
         <div>
           <figure>
-            <img src="media/image/strength.jpg"
+            <img src="media/image/yoga.jpg"
                  class="inline-photo show-on-scroll">
           </figure>
         </div>
@@ -133,7 +133,7 @@ export default {
       let scroll = window.requestAnimationFrame ||
           // IE Fallback
           function (callback) {
-            window.setTimeout(callback, 1000 * 100)
+            window.setTimeout(callback, 100 * 100)
           };
       let elementsToShow = document.querySelectorAll('.show-on-scroll');
 
@@ -161,11 +161,11 @@ export default {
         }
         let rect = el.getBoundingClientRect();
         return (
-            (rect.top <= 0
-                && rect.bottom >= 0)
+            (rect.top >= 0
+                && rect.bottom <= 0)
             ||
-            (rect.bottom >= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.top <= (window.innerHeight || document.documentElement.clientHeight))
+            (rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.top >= (window.innerHeight || document.documentElement.clientHeight))
             ||
             (rect.top >= 0 &&
                 rect.bottom <= (window.innerHeight || document.documentElement.clientHeight))
@@ -190,18 +190,19 @@ html {
 }
 
 .inline-photo {
-  border: 1em solid #fff;
-  border-bottom: 4em solid #fff;
-  border-radius: .25em;
-  //box-shadow: 0em 0em 1px 3px rgb(122 122 122 / 16%);
-  margin: 2em auto;
+  //border: 1em solid #fff;
+  //border-bottom: 4em solid #fff;
+  border-radius: 11px;
+  box-shadow: 0em 0em 1px 3px rgb(122 122 122 / 16%);
+  //margin: 2em auto;
   opacity: 0;
   transform: translateY(120px);
-  transition: transform 10s .25s cubic-bezier(0, 1, .3, 1),
+  transition: transform 1s .3s cubic-bezier(0, 1, .3, 1),
   opacity .3s .25s ease-out;
   max-width: 600px;
   width: 90%;
   will-change: transform, opacity;
+
 }
 
 .inline-photo.is-visible {
@@ -285,6 +286,6 @@ section > div {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  padding: 1rem;
+  //padding: 1rem;
 }
 </style>
