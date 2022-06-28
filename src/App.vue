@@ -1,12 +1,12 @@
 <template>
-  <header class="header show-on-scroll">
+  <header class=" header show-on-scroll">
     <div class="main-photo"></div>
   </header>
   <div class="text-center ">
     <h1 class="scroll-text">Scroll down</h1>
 
   </div>
-  <article class="content">
+  <article class=" content  ">
     <div class="container">
       <section></section>
       <section>
@@ -125,7 +125,7 @@
       </section>
     </div>
   </article>
-  <section class="card-page">
+  <section class=" card-page  ">
     <div class="container mt-5">
       <div class="items-card">
         <h1 class="mb-5 text-center">What Dashcore template offers</h1>
@@ -143,7 +143,7 @@
       </div>
     </div>
   </section>
-  <section class="comment">
+  <section class=" comment  ">
     <div class="container">
       <div class="d-flex justify-content-between">
         <div class="comment__box box__4 d-flex flex-column justify-content-center align-items-center ">
@@ -157,11 +157,11 @@
                 <span class="px-4 pt-2">Text</span>
                 <div class="d-flex pt-2 px-4 fig-img">
                   <figure>
-                  <img src="/media/image/user.jpg" alt="" width="44px" height="44px">
-                </figure>
+                    <img src="/media/image/user.jpg" alt="" width="44px" height="44px">
+                  </figure>
                   <p class="d-flex flex-column px-2">
                     <span style="font-size: 13px">Louis Ringal</span>
-                    <span style="opacity: 0.3;font-size: 12px"  >2 hours ago</span>
+                    <span style="opacity: 0.3;font-size: 12px">2 hours ago</span>
                   </p>
 
                 </div>
@@ -169,7 +169,7 @@
                   here for the other one we have</span>
               </div>
               <div class="d-flex justify-content-between px-4 reply">
-                <p >7 reply</p>
+                <p>7 reply</p>
 
               </div>
             </div>
@@ -202,7 +202,7 @@
                   </figure>
                   <p class="d-flex flex-column px-2">
                     <span style="font-size: 13px">Louis Ringal</span>
-                    <span style="opacity: 0.3;font-size: 12px"  >2 hours ago</span>
+                    <span style="opacity: 0.3;font-size: 12px">2 hours ago</span>
                   </p>
 
                 </div>
@@ -210,7 +210,7 @@
                   here for the other one we have</span>
               </div>
               <div class="d-flex justify-content-between px-4 reply">
-                <p >7 reply</p>
+                <p>7 reply</p>
 
               </div>
             </div>
@@ -243,7 +243,7 @@
                   </figure>
                   <p class="d-flex flex-column px-2">
                     <span style="font-size: 13px">Louis Ringal</span>
-                    <span style="opacity: 0.3;font-size: 12px"  >2 hours ago</span>
+                    <span style="opacity: 0.3;font-size: 12px">2 hours ago</span>
                   </p>
 
                 </div>
@@ -251,7 +251,7 @@
                   here for the other one we have</span>
               </div>
               <div class="d-flex justify-content-between px-4 reply">
-                <p >7 reply</p>
+                <p>7 reply</p>
 
               </div>
             </div>
@@ -284,7 +284,7 @@
                   </figure>
                   <p class="d-flex flex-column px-2">
                     <span style="font-size: 13px">Louis Ringal</span>
-                    <span style="opacity: 0.3;font-size: 12px"  >2 hours ago</span>
+                    <span style="opacity: 0.3;font-size: 12px">2 hours ago</span>
                   </p>
 
                 </div>
@@ -292,7 +292,7 @@
                   here for the other one we have</span>
               </div>
               <div class="d-flex justify-content-between px-4 reply">
-                <p >7 reply</p>
+                <p>7 reply</p>
 
               </div>
             </div>
@@ -309,6 +309,18 @@
             <span>Jack Ringel</span>
             <span>Jackringel@gmail.com</span>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="company">
+    <div class="container">
+      <div class="d-flex align-items-center">
+        <div class="scrollShow box" v-for="items in company">
+          <figure class="col-12">
+            <img :src="items.img" alt="image" class="col-12">
+          </figure>
         </div>
       </div>
     </div>
@@ -340,6 +352,24 @@ export default {
         text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eveniet nihil perspiciatis quia quidem quod ratione sapiente sint?'
       }
     ],
+    company: [
+      {
+        img: '/media/image/logo-1.png'
+      },
+      {
+        img: '/media/image/logo-2.png'
+      },
+      {
+        img: '/media/image/logo-3.png'
+      },
+      {
+        img: '/media/image/logo-4.png'
+      },
+      {
+        img: '/media/image/logo-5.png'
+      },
+
+    ]
   }),
   methods: {
     scr() {
@@ -385,10 +415,88 @@ export default {
                 rect.bottom <= (window.innerHeight || document.documentElement.clientHeight))
         );
       }
+    },
+    companyScroll() {
+      let scrollShow = {
+        items: [], // arary of objects containing DOM element and parameters for scrollShow
+        delay: 0.05, // time delay (seconds) on simutaneously showing elements
+        default_element_percent: 100, // default percentage of element in viewport to be "in view"
+        default_viewport_percent: 0, // default percentage of viewport to be used for "in view checking"
+        hide_on_scroll_back: false, // hide if scrolling back up
+
+        // populate this.items to keep track of scrollShow elements
+        addItems: function (classname = "scrollShow") {
+          let elements = document.getElementsByClassName(classname)
+          for (let i = 0; i < elements.length; i++) {
+            const el = elements[i]
+            const showClass = el.getAttribute('scroll-show') || 'show'
+            let elPercent = parseInt(el.getAttribute('scroll-show') || this.default_element_percent)
+            let vpPercent = parseInt(el.getAttribute('scroll-show') || this.default_viewport_percent)
+            let item = {
+              element: el,
+              showClass: showClass,
+              elPercent: elPercent,
+              vpPercent: vpPercent,
+              top: null,
+              height: null,
+              keyY: null
+            }
+            item = this.updateRect(item)
+            this.items.push(item)
+          }
+          this.onScroll()
+        },
+
+        // update scrollShow elements rectangular position
+        updateRect: function (item) {
+          const rect = item.element.getBoundingClientRect()
+          item.top = rect.top + scrollY
+          item.height = rect.height
+          item.keyY = item.top + item.height * item.elPercent / 100 - innerHeight * (1 - item.vpPercent / 100)
+          return item
+        },
+
+        onResize: function () {
+          for (let i = 0; i < this.items.length; i++) {
+            this.items[i] = this.updateRect(this.items[i])
+          }
+          this.onScroll()
+        },
+
+        onScroll: function () {
+          const isAfterY = this.items.map(function (item) {
+            return item.keyY <= scrollY
+          })
+          const alreadyShown = this.items.map(function (item) {
+            return item.element.classList.contains(item.showClass)
+          })
+
+          let count = 0
+          for (let i = 0; i < isAfterY.length; i++) {
+            const showClass = this.items[i].showClass
+            let el = this.items[i].element
+            el.style.transitionDelay = null
+            if (isAfterY[i] && !alreadyShown[i]) {
+              el.style.transitionDelay = `${this.delay * count}s`
+              count++
+              el.classList.add(showClass)
+            } else if (this.hide_on_scroll_back && !isAfterY[i] && alreadyShown[i]) {
+              el.classList.remove(showClass)
+            }
+          }
+        },
+      };
+
+// listens to window resize and scroll events
+      window.addEventListener('resize', () => scrollShow.onResize());
+      window.addEventListener('scroll', () => scrollShow.onScroll());
+      scrollShow.addItems();
+      scrollShow.hide_on_scroll_back = true
     }
   },
   mounted() {
     this.scr();
+    this.companyScroll();
   }
 }
 </script>
@@ -400,6 +508,7 @@ export default {
   border: 0 none;
   position: relative;
 }
+
 html {
   background: #000;
   box-sizing: border-box;
@@ -407,6 +516,7 @@ html {
   font-size: 1rem;
   color: #000;
 }
+
 article {
   .inline-photo {
     //border: 1em solid #fff;
@@ -514,6 +624,7 @@ article {
     //padding: 1rem;
   }
 }
+
 @keyframes scroll-down {
   0% {
     transform: translateY(0px);
@@ -527,6 +638,7 @@ article {
 
   }
 }
+
 .scroll-text {
   padding-top: 100px;
 
@@ -541,6 +653,7 @@ article {
     animation: scroll-down 1s infinite;
   }
 }
+
 .card-page {
   background-color: #F7FAFC;
   padding-top: 5px;
@@ -584,8 +697,10 @@ article {
     }
   }
 }
+
 .comment {
   padding-bottom: 5rem;
+  padding-top: 7rem;
 
   .comment__box {
     width: 18%;
@@ -596,6 +711,7 @@ article {
     position: relative;
     overflow: hidden;
     cursor: pointer;
+
     &:hover {
       figcaption {
         transform: translateY(0px);
@@ -648,6 +764,7 @@ article {
     }
   }
 }
+
 .box__4 {
   figcaption {
     left: 0;
@@ -658,6 +775,7 @@ article {
 
   }
 }
+
 figcaption {
   display: flex;
   justify-content: space-between;
@@ -670,10 +788,12 @@ figcaption {
   opacity: 1;
   z-index: 99;
 }
+
 .fig-text {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
 .text-comment-box {
   position: relative;
 
@@ -688,39 +808,70 @@ figcaption {
 
   }
 }
-.fig-img{
-  border-radius: 100%;
-img{
-  border: 1px solid #1D15FF;
-  border-radius: 100%;
-  padding: 2px;
 
+.fig-img {
+  border-radius: 100%;
+
+  img {
+    border: 1px solid #1D15FF;
+    border-radius: 100%;
+    padding: 2px;
+
+  }
 }
-}
-.reply{
+
+.reply {
   position: relative;
-  p{
+
+  p {
     color: #0074FF;
   }
+
   @keyframes arrow {
-    0%{
+    0% {
       transform: translateX(0px);
     }
-    50%{
+    50% {
       transform: translateX(2px);
     }
-    100%{
+    100% {
       transform: translateX(0px);
     }
   }
-  &::before{
+
+  &::before {
     content: '';
     position: absolute;
     width: 25px;
     height: 25px;
-    right:20px;
+    right: 20px;
     background-image: url("./public/media/svg/arrow-right-dark.svg");
-    animation:arrow 1s infinite ;
+    animation: arrow 1s infinite;
   }
 }
+
+.box {
+  //margin: 10px;
+  //height: 200px;
+  //width: 200px;
+  transition: 1s all ease-in-out;
+  //display: inline-block;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.scrollShow {
+  opacity: 0;
+  transition: 3s all ease-in-out;
+
+}
+
+.scrollShow .show {
+  opacity: 1;
+}
+
+.show {
+  opacity: 1;
+}
+
 </style>
