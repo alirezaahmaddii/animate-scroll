@@ -3,9 +3,9 @@
     <g id="vuesax_linear_arrow-right" data-name="vuesax/linear/arrow-right" transform="translate(-620 -188)">
         <g id="arrow-right">
             <path id="Vector" d="M0,0,6.07,6.07,0,12.14" transform="translate(634.43 193.93)" fill="none"
-                  stroke="#0F2D5A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+                  stroke="#0074FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
             <path id="Vector-2" data-name="Vector" d="M0,0H16.83" transform="translate(623.5 200)" fill="none"
-                  stroke="#0F2D5A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+                  stroke="#0074FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
             <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(644 212) rotate(180)"
                   fill="none" opacity="0"/>
         </g>
