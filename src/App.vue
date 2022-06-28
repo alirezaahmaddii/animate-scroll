@@ -862,16 +862,22 @@ figcaption {
 
 .scrollShow {
   opacity: 0;
-  transition: 3s all ease-in-out;
+  transition: 0.8s all ease-in-out;
+  transform: translateY(200px);
+  overflow: hidden;
 
 }
 
 .scrollShow .show {
   opacity: 1;
+  transform: translateY(0px);
+  overflow: hidden;
 }
 
 .show {
   opacity: 1;
+  transform: translateY(0px);
+  overflow: hidden;
 }
 
 </style>
