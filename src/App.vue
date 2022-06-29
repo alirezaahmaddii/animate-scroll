@@ -2,8 +2,19 @@
   <header class=" header show-on-scroll">
     <div class="main-photo"></div>
   </header>
-  <div class="text-center ">
-    <h1 class="scroll-text">Scroll down</h1>
+  <div class="scroll text-center d-flex justify-content-center">
+    <h1 class="scroll-text  ">S</h1>
+    <h1 class="scroll-text ">c</h1>
+    <h1 class="scroll-text ">r</h1>
+    <h1 class="scroll-text ">o</h1>
+    <h1 class="scroll-text ">l</h1>
+    <h1 class="scroll-text ">l</h1>
+    <h1 class="scroll-text "> </h1>
+    <h1 class="scroll-text ">d</h1>
+    <h1 class="scroll-text ">o</h1>
+    <h1 class="scroll-text ">w</h1>
+    <h1 class="scroll-text ">n</h1>
+    <h1 class="scroll-down-text"></h1>
 
   </div>
   <article class=" content  ">
@@ -325,9 +336,17 @@
       </div>
     </div>
   </section>
+  <section class="text-animation">
+
+  </section>
+
 
 </template>
 <script>
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger.js';
+import 'gsap/ScrollToPlugin';
+
 export default {
   data: () => ({
     carditem: [
@@ -406,7 +425,7 @@ export default {
         let rect = el.getBoundingClientRect();
         return (
             (rect.top <= 0
-                && rect.bottom <= 0)
+                && rect.bottom >= 0)
             ||
             (rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
                 rect.top <= (window.innerHeight || document.documentElement.clientHeight))
@@ -416,10 +435,11 @@ export default {
         );
       }
     },
+    //this is animation company box
     companyScroll() {
       let scrollShow = {
         items: [], // arary of objects containing DOM element and parameters for scrollShow
-        delay: 0.05, // time delay (seconds) on simutaneously showing elements
+        delay: 0.4, // time delay (seconds) on simutaneously showing elements
         default_element_percent: 100, // default percentage of element in viewport to be "in view"
         default_viewport_percent: 0, // default percentage of viewport to be used for "in view checking"
         hide_on_scroll_back: false, // hide if scrolling back up
@@ -492,11 +512,117 @@ export default {
       window.addEventListener('scroll', () => scrollShow.onScroll());
       scrollShow.addItems();
       scrollShow.hide_on_scroll_back = true
-    }
+    },
+    look() {
+      gsap.registerPlugin(ScrollTrigger)
+      let sections = gsap.utils.toArray("section"),
+          currentSection = sections[0];
+
+      gsap.defaults({overwrite: 'auto', duration: 0.3});
+
+// stretch out the body height according to however many sections there are.
+      gsap.set("body", {height: (sections.length * 100) + "%"});
+
+// create a ScrollTrigger for each section
+      sections.forEach((section, i) => {
+        ScrollTrigger.create({
+          // use dynamic scroll positions based on the window height (offset by half to make it feel natural)
+          start: () => (i - 0.5) * innerHeight,
+          end: () => (i + 0.5) * innerHeight,
+          // when a new section activates (from either direction), set the section accordinglyl.
+          onToggle: self => self.isActive && setSection(section)
+        });
+      });
+
+      function setSection(newSection) {
+        if (newSection !== currentSection) {
+          gsap.to(currentSection, {opacity: 1, autoAlpha: 0})
+          gsap.to(newSection, {opacity: 1, autoAlpha: 1});
+          currentSection = newSection;
+        }
+      }
+
+// handles the infinite part, wrapping around at either end....
+      ScrollTrigger.create({
+        start: 1,
+        end: () => ScrollTrigger.maxScroll(window) - 1,
+        onLeaveBack: self => self.scroll(ScrollTrigger.maxScroll(window) - 2),
+        onLeave: self => self.scroll(2)
+      }).scroll(2);
+    },
+    box() {
+      // usage:
+      batch(".card", {
+        interval: 0.1, // time window (in seconds) for batching to occur. The first callback that occurs (of its type) will start the timer, and when it elapses, any other similar callbacks for other targets will be batched into an array and fed to the callback. Default is 0.1
+        batchMax: 3,   // maximum batch size (targets)
+        onEnter: batch => gsap.to(batch, {autoAlpha: 1, stagger: 1, overwrite: true}),
+        onLeave: batch => gsap.set(batch, {autoAlpha: 0, overwrite: true}),
+        onEnterBack: batch => gsap.to(batch, {autoAlpha: 1, stagger: 0.1, overwrite: true}),
+        onLeaveBack: batch => gsap.set(batch, {autoAlpha: 0, overwrite: true})
+        // you can also define things like start, end, etc.
+      });
+
+
+// the magical helper function (no longer necessary in GSAP 3.3.1 because it was added as ScrollTrigger.batch())...
+      function batch(targets, vars) {
+        let varsCopy = {},
+            interval = vars.interval || 0.1,
+            proxyCallback = (type, callback) => {
+              let batch = [],
+                  delay = gsap.delayedCall(interval, () => {
+                    callback(batch);
+                    batch.length = 0;
+                  }).pause();
+              return self => {
+                batch.length || delay.restart(true);
+                batch.push(self.trigger);
+                vars.batchMax && vars.batchMax <= batch.length && delay.progress(1);
+              };
+            },
+            p;
+        for (p in vars) {
+          varsCopy[p] = (~p.indexOf("Enter") || ~p.indexOf("Leave")) ? proxyCallback(p, vars[p]) : vars[p];
+        }
+        gsap.utils.toArray(targets).forEach(target => {
+          let config = {};
+          for (p in varsCopy) {
+            config[p] = varsCopy[p];
+          }
+          config.trigger = target;
+          ScrollTrigger.create(config);
+        });
+      }
+    },
+    text() {
+      const tl = gsap.timeline({
+        // repeat: -1,
+        // yoyo: false,
+      });
+      tl.to('.header-letter', {duration: 0.65,top: -100,y: -100,right: 100,x: 100,opacity: 1,stagger: 0.25,ease: "slow"});
+
+    },
+    scrollanimatext(){
+      const tl=gsap.timeline({
+
+      });
+      tl.to('.scroll-text ',{duration: 0.65,top: 100,y: 100,right: 100,x: 100,opacity: 1,stagger: 0.25,ease: "slow"})
+      tl.to('.scroll ',{duration: 0.65,top: 100,y: 100,right: 100,x: 100,opacity: 1,stagger: 0.25,ease: "slow"})
+      tl.to('.scroll-down-text',{duration: 0.65,right: 811,y: 100,opacity: 1,stagger: 0.25,ease: "slow"})
+    },
+
+
   },
   mounted() {
     this.scr();
+    //company animation
     this.companyScroll();
+
+    // this.look();
+    this.box();
+    //this for animation text
+    this.text();
+    this.scrollanimatext();
+
   }
 }
 </script>
@@ -509,13 +635,7 @@ export default {
   position: relative;
 }
 
-html {
-  background: #000;
-  box-sizing: border-box;
-  font-family: 'Vollkorn', sans-serif;
-  font-size: 1rem;
-  color: #000;
-}
+
 
 article {
   .inline-photo {
@@ -639,19 +759,30 @@ article {
   }
 }
 
-.scroll-text {
-  padding-top: 100px;
-
-  &::after {
+.scroll-down-text{
     content: '';
     position: absolute;
     width: 35px;
     height: 35px;
-    background-image: url("./public/media/svg/down-arrow-svgrepo-com.svg");
+    background-image: url("/media/svg/down-arrow-svgrepo-com.svg");
     background-size: cover;
-    transform: rotate(90deg);
     animation: scroll-down 1s infinite;
-  }
+    top: 19rem;
+    opacity: 0;
+}
+.scroll-text {
+  padding-top: 100px;
+  opacity: 0;
+    //&::after {
+    //  content: '';
+    //  position: absolute;
+    //  width: 35px;
+    //  height: 35px;
+    //  background-image: url("/media/svg/down-arrow-svgrepo-com.svg");
+    //  background-size: cover;
+    //  transform: rotate(90deg);
+    //  animation: scroll-down 1s infinite;
+    //}
 }
 
 .card-page {
@@ -677,22 +808,22 @@ article {
     }
 
     .background1 {
-      background-image: url("./public/media/svg/pig.svg");
+      background-image: url("/media/svg/pig.svg");
       background-repeat: no-repeat;
     }
 
     .background2 {
-      background-image: url("./public/media/svg/medal.svg");
+      background-image: url("/media/svg/medal.svg");
       background-repeat: no-repeat;
     }
 
     .background3 {
-      background-image: url("./public/media/svg/user.svg");
+      background-image: url("/media/svg/user.svg");
       background-repeat: no-repeat;
     }
 
     .background4 {
-      background-image: url("./public/media/svg/laptop.svg");
+      background-image: url("/media/svg/laptop.svg");
       background-repeat: no-repeat;
     }
   }
@@ -880,4 +1011,13 @@ figcaption {
   overflow: hidden;
 }
 
+
+/*just layout*/
+.header-letter {
+  position: relative;
+  //font-family: "iransans-bold";
+  //color: $oneColor;
+  opacity: 1;
+  text-transform: capitalize;
+}
 </style>
